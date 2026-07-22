@@ -1,0 +1,43 @@
+# Changelog
+
+All notable changes to UMICODE are documented here.
+
+The format follows a simple version-based structure rather than strict semantic versioning during early development.
+
+---
+
+## [0.2] - 2026-07-22
+
+### Added
+
+- Refined configuration schema to represent the molecular cassette explicitly.
+- Added separation between anchor design and cassette structure.
+- Added support for ONT duplex sequencing configuration.
+- Added explicit representation of Ig/TCR MRD as the primary application.
+- Added design rationale comments describing the error-aware UMI philosophy.
+
+### Design decisions
+
+- UMIs are treated as components of a molecular cassette rather than isolated barcode sequences.
+- Anchor selection precedes UMI design because candidate UMIs must be evaluated in their final sequence context.
+- Ambiguous UMI assignments should be retained for downstream evaluation rather than automatically discarded.
+
+---
+
+## [0.1] - 2026-07-22
+
+### Added
+
+- Initial UMICODE project structure.
+- Configuration loading.
+- Core assay data models:
+  - Anchor
+  - Spacer
+  - UMI
+  - CassetteDesign
+- Basic sequence and cassette validation.
+- Initial automated test framework.
+
+### Purpose
+
+Established the computational framework for designing error-aware duplex UMIs for long-read sequencing applications.

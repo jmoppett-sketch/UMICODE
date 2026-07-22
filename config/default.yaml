@@ -1,78 +1,192 @@
 # ============================================================
 # UMICODE configuration
-# Version: 0.1
+# Version: 0.2
+#
+# Error-aware duplex UMI design for long-read sequencing.
+#
+# UMICODE treats the UMI as part of a molecular cassette rather
+# than as an isolated barcode. Candidate UMIs are evaluated in
+# the context of neighbouring anchors, spacers and sequencing
+# error models.
 # ============================================================
 
+
 project:
+
   name: UMICODE
-  version: "0.1"
+  version: "0.2"
+
+  # Ensures reproducibility of computational experiments
   random_seed: 42
+
+  # Current primary application
+  # Future applications may include AML mutation/fusion detection
   application: Ig_TCR_MRD
 
+
 platform:
+
   sequencing: ONT
+
+  # Duplex information is important because molecule identity
+  # can be supported by both strands/read evidence
   read_mode: duplex
+
   chemistry: null
   basecaller: null
+
+
+# ============================================================
+# Anchor design
+#
+# Anchors are fixed sequences adjacent to the UMI.
+# Anchor selection precedes UMI generation because candidate
+# UMIs must be assessed against the final cassette context.
+# ============================================================
+
+anchor_design:
+
+  strategy: consensus
+
+  # Initial length used for computational exploration.
+  # Sequence may be supplied from experimental design later.
+  length: 8
+
+  source: J_segment_consensus
+
+  left:
+    sequence: null
+
+  right:
+    sequence: null
+
+
+# ============================================================
+# Molecular cassette structure
+#
+# Left and right sides are modelled separately because they may
+# have different sequences and performance characteristics.
+# ============================================================
 
 cassette:
 
   left:
+
     adapter: ""
-    anchor:
-      sequence: null
-      length: 8
+
     spacer:
       sequence: "AT"
+
     umi:
       length: 16
 
+
   right:
+
     adapter: ""
-    anchor:
-      sequence: null
-      length: 8
+
     spacer:
       sequence: "TA"
+
     umi:
       length: 16
+
+
+
+# ============================================================
+# Sequence constraints
+#
+# Conservative filtering is preferred. Candidate sequences should
+# be evaluated rather than discarded unnecessarily, particularly
+# given the additional information available from long reads.
+# ============================================================
 
 constraints:
 
   gc:
+
     minimum: 0.40
     maximum: 0.60
 
+
   homopolymer:
+
+    # Avoid runs that may increase sequencing ambiguity
     maximum_length: 3
 
+
   hamming:
+
+    # Conservative minimum separation between UMI sequences
     minimum_distance: 4
 
+
   secondary_structure:
+
     enabled: false
 
+
+  # Prevent accidental confusion between UMI and anchor regions
   avoid_anchor_overlap: true
+
+
+
+# ============================================================
+# UMI codebook design
+# ============================================================
 
 design:
 
   umi:
+
+    # Initial duplex barcode space:
+    # left codebook x right codebook
+    # = 32 x 32 molecular identities
+
     left_codebook_size: 32
+
     right_codebook_size: 32
+
+
+
+# ============================================================
+# Simulation
+#
+# Allows testing of recovery under realistic sequencing errors.
+# Rates will eventually be informed by ONT duplex performance data.
+# ============================================================
 
 simulation:
 
   enabled: true
+
   substitution_rate: null
+
   insertion_rate: null
+
   deletion_rate: null
+
   reads_per_molecule: null
+
+
+
+# ============================================================
+# Decoding
+#
+# Ambiguous UMIs are retained where possible.
+# Final molecular assignment should consider both UMI evidence
+# and sequence context (for example VDJ sequence).
+# ============================================================
 
 decoder:
 
   probabilistic: true
+
   retain_ambiguous_reads: true
+
   maximum_umi_distance: 2
+
+
 
 output:
 
