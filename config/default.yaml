@@ -1,0 +1,63 @@
+# ============================================================
+# UMICODE configuration
+# Version: 0.1
+# ============================================================
+
+project:
+  name: UMICODE
+  version: 0.1
+  random_seed: 42
+
+platform:
+  sequencing: ONT
+  chemistry: null
+  basecaller: null
+
+cassette:
+
+  left:
+    adapter: ""
+    anchor_length: 8
+    spacer: "AT"
+    umi_length: 16
+
+  right:
+    adapter: ""
+    anchor_length: 8
+    spacer: "TA"
+    umi_length: 16
+
+constraints:
+
+  gc:
+    minimum: 0.40
+    maximum: 0.60
+
+  homopolymer:
+    maximum_length: 3
+
+  secondary_structure:
+    enabled: false
+
+  minimum_channel_distance: 4
+
+design:
+
+  left_codebook_size: 32
+  right_codebook_size: 32
+
+simulation:
+
+  enabled: true
+
+  substitution_rate: null
+  insertion_rate: null
+  deletion_rate: null
+
+decoder:
+
+  probabilistic: true
+
+output:
+
+  output_directory: output

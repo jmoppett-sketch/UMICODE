@@ -1,0 +1,90 @@
+# UMICODE Vision
+
+## Why UMICODE Exists
+
+Modern molecular diagnostics increasingly depend on the accurate identification of individual DNA molecules. Unique Molecular Identifiers (UMIs) have transformed many sequencing applications by enabling molecular counting and error correction, yet most current UMI strategies were developed for short-read sequencing and assume relatively simple sequencing error models.
+
+Long-read sequencing technologies, particularly Oxford Nanopore Technologies (ONT), offer new opportunities to interrogate complete biological molecules, but they also present fundamentally different sequencing characteristics. Insertions, deletions and context-dependent errors mean that conventional approaches to UMI design and decoding may not fully exploit the potential of these platforms.
+
+UMICODE was conceived to address this challenge.
+
+Rather than treating molecular barcodes as random nucleotide strings, UMICODE approaches them as **designed molecular codebooks** that are jointly optimised with their decoding algorithms for the sequencing platform on which they will be used.
+
+---
+
+# Initial Scientific Driver
+
+The initial application of UMICODE is the development of an ultra-sensitive assay for minimal residual disease (MRD) detection in childhood acute lymphoblastic leukaemia (ALL).
+
+The broader assay combines:
+
+* capture-based enrichment of immunoglobulin (Ig) and T-cell receptor (TCR) rearrangements;
+* duplex Unique Molecular Identifiers attached prior to amplification;
+* long-read Oxford Nanopore sequencing.
+
+Within this workflow, UMICODE provides the computational framework for designing, simulating and decoding molecular identifiers that maximise faithful recovery of original DNA molecules.
+
+---
+
+# Long-term Vision
+
+Although motivated by childhood ALL MRD, UMICODE is intended to become a general framework for molecular code design.
+
+Future applications may include:
+
+* minimal residual disease in other haematological malignancies, including acute myeloid leukaemia (AML);
+* targeted oncology sequencing;
+* circulating tumour DNA assays;
+* immune repertoire sequencing;
+* duplex sequencing;
+* future long-read sequencing platforms.
+
+The underlying principles should remain applicable even as sequencing chemistries and technologies evolve.
+
+---
+
+# Design Philosophy
+
+UMICODE is founded on several core principles.
+
+**Biology first.**
+
+The software exists to solve a biological problem. Algorithmic decisions should always support accurate recovery of original biological molecules.
+
+**Design and decoding are inseparable.**
+
+Molecular identifiers should not be designed independently of the algorithms that decode them. The encoder and decoder should be developed together as parts of a single system.
+
+**Platform-aware optimisation.**
+
+Sequencing technologies exhibit distinct error characteristics. Molecular codebooks should therefore be optimised for the sequencing channel on which they will be used rather than relying solely on generic sequence-distance metrics.
+
+**Recover molecules, not simply barcodes.**
+
+The primary objective is faithful reconstruction of original DNA molecules. Exact recovery of every barcode sequence is a means to that end, not the end itself.
+
+**Reproducibility.**
+
+Every design produced by UMICODE should be reproducible from documented inputs, configuration files and software versions.
+
+---
+
+# What Success Looks Like
+
+Success will not be measured simply by producing another UMI design tool.
+
+Success will be achieved if UMICODE:
+
+* enables more accurate reconstruction of original DNA molecules from noisy long-read sequencing data;
+* reduces incorrect molecular merging and splitting;
+* provides a flexible framework for designing platform-aware molecular codebooks;
+* supports the development of highly sensitive molecular diagnostic assays;
+* becomes a robust, well-documented and reproducible open-source research software package.
+
+---
+
+# Looking Ahead
+
+The long-term ambition is to establish a general methodology for molecular code design in which assay chemistry, sequencing technology and computational decoding are considered together as components of a single integrated system.
+
+If successful, UMICODE will contribute not only software, but also a conceptual framework for the design of molecular identifiers across future sequencing technologies and molecular diagnostics.

@@ -1,0 +1,282 @@
+# UMICODE Specification
+
+**Version:** 0.1 (Draft)
+
+**Status:** Working specification
+
+---
+
+# 1. Purpose
+
+UMICODE is an open-source software framework for the design, optimisation, simulation and decoding of duplex Unique Molecular Identifier (UMI) systems for long-read sequencing.
+
+The initial application is ultra-sensitive detection of minimal residual disease (MRD) in childhood acute lymphoblastic leukaemia (ALL) using Oxford Nanopore Technologies (ONT) sequencing of immunoglobulin (Ig) and T-cell receptor (TCR) rearrangements following capture-based enrichment.
+
+This document defines the scientific and engineering requirements of the software. It is intended to serve as the primary design specification from which all implementations will be developed.
+
+---
+
+# 2. Biological Motivation
+
+Minimal residual disease is one of the strongest prognostic markers in childhood ALL. Existing molecular assays frequently rely on PCR amplification of patient-specific Ig/TCR rearrangements. While highly sensitive, PCR-based approaches may introduce amplification bias and provide only limited opportunity to inspect the complete rearranged molecule.
+
+Long-read sequencing offers several potential advantages:
+
+* sequencing of substantially longer VDJ fragments;
+* direct inspection of the rearranged sequence;
+* improved investigation of unexpected or ambiguous molecular findings;
+* future compatibility with increasingly long sequencing reads.
+
+The assay under development combines:
+
+* duplex molecular identifiers attached prior to amplification;
+* capture-based enrichment using consensus probes located adjacent to J-region sequences;
+* Oxford Nanopore sequencing.
+
+The purpose of UMICODE is to design molecular identifiers specifically for this assay.
+
+---
+
+# 3. Scope
+
+UMICODE is a general framework for designing and decoding molecular codebooks under realistic sequencing error models. The initial implementation is optimised for ONT-based Ig/TCR MRD in childhood ALL, but the architecture is intended to support other assays, sequencing platforms and molecular targets.
+
+
+Version 1 of UMICODE is designed for:
+
+* Oxford Nanopore sequencing;
+* duplex UMI architecture;
+* capture-based enrichment;
+* Ig/TCR rearrangements for childhood ALL MRD.
+
+---
+
+# 4. Assay Overview
+
+The intended laboratory workflow is:
+
+Genomic DNA
+
+↓
+
+End repair / adapter ligation
+
+↓
+
+Duplex UMI attachment
+
+↓
+
+Limited amplification
+
+↓
+
+Hybrid capture using consensus J-region probes
+
+↓
+
+Post-capture amplification
+
+↓
+
+Oxford Nanopore sequencing
+
+↓
+
+UMICODE decoding
+
+↓
+
+Consensus molecule reconstruction
+
+↓
+
+VDJ assignment
+
+↓
+
+MRD quantification
+
+UMICODE is responsible for molecular identifier design and decoding. It is not responsible for VDJ annotation or downstream clinical interpretation.
+
+---
+
+# 5. Design Philosophy
+
+UMICODE treats molecular identifiers as an encoding and decoding problem over a noisy sequencing channel.
+
+The software is built around the following principles:
+
+* preserve original biological molecules wherever possible;
+* minimise incorrect merging of distinct molecules;
+* minimise incorrect splitting of individual molecules;
+* avoid unnecessary rejection of sequencing reads;
+* optimise for realistic sequencing error behaviour rather than simple sequence distance;
+* maintain deterministic and reproducible behaviour.
+
+The primary objective is accurate recovery of original molecules rather than exact recovery of barcode sequences.
+
+---
+
+# 6. Molecular Architecture
+
+The initial cassette architecture comprises:
+
+Adapter
+
+↓
+
+Anchor
+
+↓
+
+Spacer
+
+↓
+
+Left UMI
+
+↓
+
+Target molecule
+
+↓
+
+Right UMI
+
+↓
+
+Spacer
+
+↓
+
+Anchor
+
+↓
+
+Adapter
+
+The precise adapter sequences are configurable and are not hard-coded within the software.
+
+---
+
+# 7. Functional Requirements
+
+UMICODE shall provide modules for:
+
+* candidate UMI generation;
+* sequence filtering;
+* anchor design;
+* codebook optimisation;
+* sequencing simulation;
+* probabilistic decoding;
+* reporting and quality assessment.
+
+All modules shall operate from a common configuration file.
+
+---
+# 8. Design Objectives
+
+Primary objective
+Develop an ONT-aware duplex UMI framework for capture-based Ig/TCR MRD in childhood ALL.
+Secondary objective
+Provide a modular software architecture that can be adapted to other molecular assays with minimal changes.
+Long-term objective
+Develop a general framework for molecular codebook design and probabilistic decoding across sequencing technologies.
+
+# 9. Design Constraints
+
+The optimisation framework shall support configurable constraints including:
+
+* UMI length;
+* anchor length;
+* spacer length;
+* GC content;
+* homopolymer limits;
+* sequence complexity;
+* adapter compatibility;
+* secondary structure constraints;
+* sequencing-channel optimisation metrics.
+
+No parameter shall be hard-coded unless required for software operation.
+
+---
+
+# 10. Decoding Philosophy
+
+UMICODE shall not assume that every observed UMI exactly matches a designed sequence.
+
+Instead, decoding shall estimate the most probable original molecular identifier using the complete available evidence.
+
+Potential evidence includes:
+
+* left UMI;
+* right UMI;
+* anchor integrity;
+* sequencing quality;
+* sequencing error model.
+
+Future versions may incorporate additional biological evidence, including VDJ consistency, provided such evidence is used only for quality assessment and not for primary molecular counting.
+
+---
+
+# 11. Software Architecture
+
+The initial software modules are:
+
+* configuration;
+* candidate generation;
+* filtering;
+* anchor optimisation;
+* codebook construction;
+* sequencing simulation;
+* decoder;
+* reporting.
+
+Each module shall be independently testable.
+
+---
+
+# 12. Validation
+
+Performance shall initially be evaluated using simulated sequencing data.
+
+Primary metrics include:
+
+* molecular recovery rate;
+* false merge rate;
+* false split rate;
+* decoder accuracy;
+* computational performance.
+
+Subsequent versions shall support optimisation using empirical sequencing data.
+
+---
+
+# 13. Non-goals
+
+Version 1 of UMICODE does not aim to:
+
+* perform VDJ annotation;
+* replace established repertoire analysis software;
+* discard reads solely because a UMI differs from the designed codebook;
+* depend upon fixed ONT chemistries or adapter sequences.
+
+---
+
+# 14. Future Directions
+
+Potential future developments include:
+
+* empirical ONT channel modelling;
+* adaptive codebook optimisation;
+* support for additional sequencing platforms;
+* synchronisation motifs;
+* joint optimisation of complete cassette architecture;
+* integration with downstream molecular quality-control workflows.
+
+---
+
+# 15. Guiding Principle
+
+UMICODE exists to maximise faithful recovery of original biological molecules through the joint design of molecular codebooks and probabilistic decoders that are tailored to realistic long-read sequencing behaviour.
