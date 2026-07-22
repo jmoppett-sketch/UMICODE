@@ -38,6 +38,10 @@ def load_config(path: str | Path) -> dict:
 
     try:
         with path.open("r", encoding="utf-8") as handle:
+
+            # Use safe_load intentionally:
+            # configuration files should define parameters,
+            # not execute arbitrary Python objects.
             config = yaml.safe_load(handle)
 
     except yaml.YAMLError as exc:
