@@ -5,11 +5,13 @@
 
 project:
   name: UMICODE
-  version: 0.1
+  version: "0.1"
   random_seed: 42
+  application: Ig_TCR_MRD
 
 platform:
   sequencing: ONT
+  read_mode: duplex
   chemistry: null
   basecaller: null
 
@@ -17,15 +19,23 @@ cassette:
 
   left:
     adapter: ""
-    anchor_length: 8
-    spacer: "AT"
-    umi_length: 16
+    anchor:
+      sequence: null
+      length: 8
+    spacer:
+      sequence: "AT"
+    umi:
+      length: 16
 
   right:
     adapter: ""
-    anchor_length: 8
-    spacer: "TA"
-    umi_length: 16
+    anchor:
+      sequence: null
+      length: 8
+    spacer:
+      sequence: "TA"
+    umi:
+      length: 16
 
 constraints:
 
@@ -36,27 +46,33 @@ constraints:
   homopolymer:
     maximum_length: 3
 
+  hamming:
+    minimum_distance: 4
+
   secondary_structure:
     enabled: false
 
-  minimum_channel_distance: 4
+  avoid_anchor_overlap: true
 
 design:
 
-  left_codebook_size: 32
-  right_codebook_size: 32
+  umi:
+    left_codebook_size: 32
+    right_codebook_size: 32
 
 simulation:
 
   enabled: true
-
   substitution_rate: null
   insertion_rate: null
   deletion_rate: null
+  reads_per_molecule: null
 
 decoder:
 
   probabilistic: true
+  retain_ambiguous_reads: true
+  maximum_umi_distance: 2
 
 output:
 
