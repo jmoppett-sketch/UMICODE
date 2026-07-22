@@ -1,0 +1,8 @@
+- Initial platform: ONT
+- Initial application: Ig/TCR MRD
+- Duplex UMIs
+- Separate left/right codebooks
+- Anchor-first design
+- Toy implementation before optimisation
+- Python implementation
+- BSD-3 licence

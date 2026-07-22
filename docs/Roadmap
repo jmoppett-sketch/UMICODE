@@ -1,0 +1,21 @@
+# UMICODE Roadmap
+
+## Version 0.0.1
+- Repository created
+- Documentation structure
+
+## Version 0.1
+- Candidate generator
+- Sequence filters
+- Anchor optimisation
+- Toy codebook
+- Unit tests
+
+## Version 0.2
+- ONT simulator
+- Decoder
+- Monte Carlo benchmarking
+
+## Version 0.3
+- Empirical error model
+- Channel optimisation
