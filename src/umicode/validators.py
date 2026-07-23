@@ -58,3 +58,26 @@ def validate_cassette(cassette: CassetteDesign) -> bool:
         and validate_umi(cassette.left.umi)
         and validate_umi(cassette.right.umi)
     )
+
+def validate_generation_parameters(
+    number: int,
+    length: int,
+) -> None:
+    """
+    Validate parameters used for candidate UMI generation.
+
+    Raises
+    ------
+    ValueError
+        If number or length are invalid.
+    """
+
+    if number <= 0:
+        raise ValueError(
+            f"Number of candidate UMIs must be greater than zero (received {number})."
+        )
+
+    if length <= 0:
+        raise ValueError(
+            f"UMI length must be greater than zero (received {length})."
+        )

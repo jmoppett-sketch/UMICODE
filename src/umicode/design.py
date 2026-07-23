@@ -8,6 +8,7 @@ biological filtering and codebook optimisation.
 import random
 
 from .models import UMI
+from .validators import validate_generation_parameters
 
 def generate_candidate_umis(
     number: int,
@@ -30,6 +31,8 @@ def generate_candidate_umis(
         Candidate UMI objects.
     """
 
+    validate_generation_parameters(number, length)
+    
     alphabet = "ACGT"
 
     candidates = []
