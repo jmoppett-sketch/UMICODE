@@ -46,3 +46,29 @@ def minimum_pairwise_distance(
             smallest = distance
 
     return smallest
+
+def mean_pairwise_distance(
+    umis: list[UMI],
+) -> float:
+    """
+    Calculate the mean Hamming distance between all
+    pairs of UMIs in a codebook.
+    """
+
+    if len(umis) < 2:
+        raise ValueError(
+            "There must be at least 2 UMIs to compare."
+        )
+    
+    distances = []
+
+    for umi_1, umi_2 in combinations(umis, 2):
+
+        distance = hamming_distance(
+    umi_1.sequence,
+    umi_2.sequence,
+)
+
+        distances.append(distance)
+
+    return sum(distances) / len(distances)

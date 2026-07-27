@@ -4,7 +4,7 @@ from umicode.scoring import hamming_distance
 from umicode.models import UMI
 from umicode.scoring import (
     hamming_distance,
-    minimum_pairwise_distance,
+    minimum_pairwise_distance, mean_pairwise_distance
 )
 # ---------------------------------------------------------------------
 # Hamming distance
@@ -81,3 +81,29 @@ def test_minimum_pairwise_distance_requires_two_umis():
     with pytest.raises(ValueError):
 
         minimum_pairwise_distance(umis)
+
+def test_mean_pairwise_distance():
+
+    umis = [
+        UMI(length=4, sequence="AAAA"),
+        UMI(length=4, sequence="AAAT"),
+        UMI(length=4, sequence="TTTT"),
+    ]
+
+    assert mean_pairwise_distance(
+        umis,
+    ) == 2.6666666666666665
+
+
+def test_mean_pairwise_distance_requires_two_umis():
+
+    umi = UMI(
+        length=4,
+        sequence="AAAA",
+    )
+
+    with pytest.raises(ValueError):
+
+        mean_pairwise_distance(
+            [umi],
+        )
