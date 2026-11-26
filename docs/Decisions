@@ -6,3 +6,4 @@
 - Toy implementation before optimisation
 - Python implementation
 - BSD-3 licence
+- 2026-11-26: Anchored-ligation assay uses one UMI per molecule, (VHDB)x7 28-nt degenerate, identified jointly with the shear point; not a distance codebook. See docs/umi_sizing_2026-11-26.md
